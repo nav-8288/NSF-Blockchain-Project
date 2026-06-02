@@ -1,6 +1,6 @@
 # NSF Blockchain Project
 
-This repository is for my NSF blockchain research project with Professor Bina Ramamurthy.
+This repository is for my NSF blockchain research project with Dr. Bina Ramamurthy.
 
 The project focuses on collecting and analyzing blockchain transaction data, especially Ethereum mainnet transactions. The main goal is to collect transaction data over time, store it in a structured database, analyze high-value transactions, and turn the results into useful visual insights.
 
@@ -28,7 +28,7 @@ The final goal is to find “nuggets” of useful information from the transacti
 
 ## Data Collection
 
-The project will collect Ethereum mainnet transaction data from sources such as Etherscan.
+The project will collect Ethereum mainnet transaction data from Etherscan.
 
 The data may include:
 
