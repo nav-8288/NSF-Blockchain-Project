@@ -87,7 +87,7 @@ Possible slide structure:
 9. Address-to-address activity
 10. Graphs and visual results
 11. Key findings
-12. Next steps
+12. Conclusion
 
 ## Tech Stack
 
