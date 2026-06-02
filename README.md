@@ -63,8 +63,6 @@ After the data is analyzed, the results can be turned into visualizations such a
 - Line graphs showing monthly transaction activity
 - Graphs showing high-value transaction trends
 - Charts comparing crypto transactions and smart contract transactions
-- Network-style diagrams showing where money is being sent
-- Visual summaries of important addresses or transaction patterns
 
 These visuals will help explain the findings in a clear way.
 
@@ -96,7 +94,6 @@ Possible slide structure:
 - SQL
 - Etherscan
 - Pandas
-- Matplotlib / Plotly
 - GitHub
 
 ## Current Status
