@@ -1,0 +1,3 @@
+.env          keeps API key off GitHub
+__pycache__/ ignores Python cache folders
+*.csv         ignores generated transaction CSV files
