@@ -1,3 +1,7 @@
-.env          keeps API key off GitHub
-__pycache__/ ignores Python cache folders
-*.csv         ignores generated transaction CSV files
+.env
+__pycache__/
+*.csv
+.DS_Store
+data/
+.gitignore.local
+readme.local.md
