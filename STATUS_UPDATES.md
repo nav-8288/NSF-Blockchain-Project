@@ -24,7 +24,7 @@ Right now, the project has a working address-based pipeline:
 
 Etherscan API -> Python script -> Clean CSV -> PostgreSQL -> SQL analysis
 
-###Notes
+##Notes
 
 *The current version is address-based, so it analyzes one wallet or contract address at a time.
 *Some transactions show 0 ETH because they are smart contract interactions rather than direct ETH transfers.
