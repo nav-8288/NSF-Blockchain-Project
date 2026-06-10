@@ -31,6 +31,31 @@ Etherscan API -> Python script -> Clean CSV -> PostgreSQL -> SQL analysis
 *Some transactions may have a blank receiver address, which can happen with contract creation transactions.
 *Generated CSV files are being kept locally for now instead of being committed to GitHub.
 
+
+## Week 2: Large ETH Transfer Investigation
+
+### Work Completed
+
+* Investigated the recent Joseph Lubin / Consensys-related ETH movement.
+* Located the relevant Ethereum wallet address: `0x1b3cb81e51011b549d78bf720b0d924ac763a7c2`.
+* Generated a cleaned transaction CSV for the wallet.
+* Imported 405 wallet transactions into PostgreSQL as `lubin_actual_transactions`.
+* Queried the recent transaction data for transfers greater than or equal to 39,000 ETH.
+* Found two separate 40,000 ETH transfers from June 6, 2026.
+* Exported the two large-transfer results into a local CSV file for review.
+
+### Findings
+
+The reported ETH movement does not appear as one single 80,000+ ETH transaction in the wallet’s normal transaction data. Instead, it appears to be split across two separate 40,000 ETH transfers.
+
+| Timestamp | From Address | To Address | Value |
+|---|---|---|---|
+| 2026-06-06 00:11:35 | `0x1b3cb81e51011b549d78bf720b0d924ac763a7c2` | `0x22de0b5c40f012782a667ccdaa15406ba1201246` | 40,000 ETH |
+| 2026-06-06 00:18:35 | `0x1b3cb81e51011b549d78bf720b0d924ac763a7c2` | `0xabed497d0ccb6916c95dd98ad4402febf5f52fe7` | 40,000 ETH |
+
 ### Next Steps
+
+* Ask whether to continue tracing the receiving wallet addresses from these transfers.
+* Begin monthly highest-value ETH transaction analysis from June 2025 to June 2026.
 
 
