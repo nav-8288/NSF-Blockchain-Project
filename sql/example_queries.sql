@@ -18,3 +18,15 @@ SELECT
 FROM transactions
 GROUP BY month
 ORDER BY month;
+
+-- Week 2: Find recent large ETH transfers from the Lubin wallet data
+SELECT
+    tx_hash,
+    timestamp,
+    from_address,
+    to_address,
+    value_eth
+FROM lubin_actual_transactions
+WHERE timestamp >= CURRENT_DATE - INTERVAL '10 days'
+  AND value_eth >= 39000
+ORDER BY value_eth DESC;
