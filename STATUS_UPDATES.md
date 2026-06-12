@@ -43,19 +43,33 @@ Etherscan API -> Python script -> Clean CSV -> PostgreSQL -> SQL analysis
 * Queried the recent transaction data for transfers greater than or equal to 39,000 ETH.
 * Found two separate 40,000 ETH transfers from June 6, 2026.
 * Exported the two large-transfer results into a local CSV file for review.
+* Checked the receiving wallet addresses on Etherscan to see whether they were connected to MakerDAO/Maker Vault activity.
+* Found that one receiving address was labeled as a “Maker Vault Owner.”
+* Found that the second receiving address later sent 40,000 ETH to `DSProxy #213,508`.
 
 ### Findings
 
 The reported ETH movement does not appear as one single 80,000+ ETH transaction in the wallet’s normal transaction data. Instead, it appears to be split across two separate 40,000 ETH transfers.
 
-| Timestamp | From Address | To Address | Value |
-|---|---|---|---|
+| Timestamp           | From Address                                 | To Address                                   | Value      |
+| ------------------- | -------------------------------------------- | -------------------------------------------- | ---------- |
 | 2026-06-06 00:11:35 | `0x1b3cb81e51011b549d78bf720b0d924ac763a7c2` | `0x22de0b5c40f012782a667ccdaa15406ba1201246` | 40,000 ETH |
 | 2026-06-06 00:18:35 | `0x1b3cb81e51011b549d78bf720b0d924ac763a7c2` | `0xabed497d0ccb6916c95dd98ad4402febf5f52fe7` | 40,000 ETH |
 
+Based on Etherscan labels and follow-up transfers, the receiving addresses appear to be connected to MakerDAO/Maker Vault activity. I would describe them as MakerDAO/Maker Vault-related rather than saying they are directly MakerDAO-owned.
+
+### Additional Notes
+
+* The current transaction collection script is still address-based, so this investigation was done by first identifying the relevant wallet address and then pulling that wallet’s transaction history.
+* The original search for one transaction greater than 80,000 ETH did not return a single matching transaction in the normal transaction data.
+* Etherscan labels and follow-up transfers were useful for checking whether the receiving addresses were connected to MakerDAO/Maker Vault activity.
+* This investigation helped show how wallet labels, transaction hashes, receiver addresses, and follow-up transfers can be used together to classify large Ethereum movements.
+
 ### Next Steps
 
-* Ask whether to continue tracing the receiving wallet addresses from these transfers.
-* Begin monthly highest-value ETH transaction analysis from June 2025 to June 2026.
-
+* Begin moving from address-based analysis toward broader month-to-month transaction analysis.
+* Start collecting and analyzing monthly Ethereum transaction data from June 2025 to June 2026.
+* Focus on finding the highest-value ETH transactions for each month.
+* Continue using PostgreSQL to filter, organize, and export the results.
+* Prepare the monthly results so they can later be used for graphs, charts, or presentation slides.
 
