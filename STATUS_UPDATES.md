@@ -46,6 +46,10 @@ Etherscan API -> Python script -> Clean CSV -> PostgreSQL -> SQL analysis
 * Checked the receiving wallet addresses on Etherscan to see whether they were connected to MakerDAO/Maker Vault activity.
 * Found that one receiving address was labeled as a “Maker Vault Owner.”
 * Found that the second receiving address later sent 40,000 ETH to `DSProxy #213,508`.
+* Set up BigQuery in the available sandbox/trial environment to test broader Ethereum mainnet transaction analysis.
+* Used BigQuery’s public Ethereum mainnet transaction table to move beyond only one wallet or contract address.
+* Ran a query to pull the top 10 normal ETH-value transactions for each month from June 2025 through June 2026.
+* Exported the monthly top 10 transaction results locally as a CSV file for review.
 
 ### Findings
 
@@ -58,18 +62,27 @@ The reported ETH movement does not appear as one single 80,000+ ETH transaction 
 
 Based on Etherscan labels and follow-up transfers, the receiving addresses appear to be connected to MakerDAO/Maker Vault activity. I would describe them as MakerDAO/Maker Vault-related rather than saying they are directly MakerDAO-owned.
 
+The monthly mainnet query is different from the earlier Etherscan work because it looks across Ethereum mainnet transactions instead of only one specific wallet address. For this first monthly analysis, I focused on normal ETH transactions, meaning direct ETH value moved in the transaction itself. The results show the top 10 ETH-value transactions for each month from June 2025 through June 2026.
+
+
 ### Additional Notes
 
 * The current transaction collection script is still address-based, so this investigation was done by first identifying the relevant wallet address and then pulling that wallet’s transaction history.
 * The original search for one transaction greater than 80,000 ETH did not return a single matching transaction in the normal transaction data.
 * Etherscan labels and follow-up transfers were useful for checking whether the receiving addresses were connected to MakerDAO/Maker Vault activity.
 * This investigation helped show how wallet labels, transaction hashes, receiver addresses, and follow-up transfers can be used together to classify large Ethereum movements.
+* BigQuery is more useful than Etherscan for broader mainnet-level monthly analysis because Etherscan is mainly practical for wallet or contract-level transaction history.
+* The BigQuery monthly query focuses on normal ETH transactions, so it does not include internal transactions, ERC-20 transfers, or other contract-level value movements.
+* The monthly results include the month, transaction hash, timestamp, sender address, receiver address, ETH amount, and monthly rank.
+
 
 ### Next Steps
 
-* Begin moving from address-based analysis toward broader month-to-month transaction analysis.
-* Start collecting and analyzing monthly Ethereum transaction data from June 2025 to June 2026.
-* Focus on finding the highest-value ETH transactions for each month.
-* Continue using PostgreSQL to filter, organize, and export the results.
+* Review the top 10 highest-value normal ETH transactions for each month from June 2025 to June 2026.
+* Spot-check selected transaction hashes on Etherscan to confirm the BigQuery results.
+* Add the BigQuery SQL query to the GitHub repository so the analysis can be reproduced.
+* Continue broader month-to-month Ethereum mainnet transaction analysis using BigQuery.
+* Continue using PostgreSQL, CSV exports, and SQL-based filtering to organize the results.
 * Prepare the monthly results so they can later be used for graphs, charts, or presentation slides.
+
 
