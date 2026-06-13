@@ -1,3 +1,8 @@
+-- Top 10 highest normal ETH-value transactions for each month
+-- Date range: June 2025 through June 2026
+-- Source: BigQuery public Ethereum mainnet transactions table
+
+
 SELECT
   FORMAT_DATE('%Y-%m', DATE(block_timestamp)) AS month,
   `hash` AS tx_hash,
