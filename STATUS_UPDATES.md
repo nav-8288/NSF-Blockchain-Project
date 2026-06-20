@@ -75,14 +75,70 @@ The monthly mainnet query is different from the earlier Etherscan work because i
 * The BigQuery monthly query focuses on normal ETH transactions, so it does not include internal transactions, ERC-20 transfers, or other contract-level value movements.
 * The monthly results include the month, transaction hash, timestamp, sender address, receiver address, ETH amount, and monthly rank.
 
+## Week 3: Monthly Mainnet Transaction Review
+
+### Work Completed
+
+* Reviewed the CSV containing the top 10 normal ETH-value transactions for each month from June 2025 through June 2026.
+* Started looking through the sender and receiver addresses to see if any repeated patterns stood out.
+* Noticed that many of the largest monthly transfers seem to involve repeated high-volume addresses instead of random one-time wallets.
+* Found that some addresses appear across multiple months and send large amounts of ETH back and forth, which may point to exchange/custody wallet movement or treasury rebalancing.
+* Started identifying addresses that should be checked further on Etherscan for public labels, wallet type, and transaction history.
+
+### Findings
+
+The monthly top 10 transaction CSV has 130 rows total, with 10 high-value normal ETH transactions for each month from June 2025 through June 2026.
+
+Nothing in the CSV alone looks like an obvious scam or fraud case yet. A lot of the activity looks more like large exchange, custody, or treasury wallet movement because the same addresses appear repeatedly and move very large amounts of ETH.
+
+One repeated address pair that stood out was:
+
+`0x28c6c06298d514db089934071355e5743bf21d60`
+
+`0xf977814e90da44bfa03b6295a0616a897441acec`
+
+These two addresses appeared multiple times across different months and moved very large amounts of ETH. This could be exchange/custody rebalancing, but I need to check the Etherscan labels and transaction history before making any stronger conclusion.
+
+Another address that stood out was:
+
+`0xa9d1e08c7793af67e9d92fe308d5697fb81d3e43`
+
+This address appeared as a repeated receiver for large ETH transfers, so it is worth checking whether it belongs to an exchange, custody wallet, or other known entity.
+
+In March 2026, there were also multiple transfers around 250,000 ETH going to:
+
+`0xa9ac43f5b5e38155a288d1a01d2cbc4478e14573`
+
+The repeated same-size transfers are interesting and may show organized wallet movement, but this still needs more checking.
+
+### Additional Notes
+
+* This part of the project is different from the earlier Joe Lubin wallet investigation because it is looking at broader mainnet activity instead of only one address.
+* The current BigQuery results only show normal ETH transactions, meaning direct ETH value moved in the transaction itself.
+* The results do not include internal transactions, ERC-20 transfers, or other smart contract-level value movements.
+* At this stage, I am not labeling anything as suspicious yet. I am mainly looking for repeated address patterns and then checking whether those addresses have known labels on Etherscan.
+
+### Addresses to Check Further
+
+* `0x28c6c06298d514db089934071355e5743bf21d60`
+* `0xf977814e90da44bfa03b6295a0616a897441acec`
+* `0xa9d1e08c7793af67e9d92fe308d5697fb81d3e43`
+* `0xb5d85cbf7cb3ee0d56b3bb207d5fc4b82f43f511`
+* `0xa9ac43f5b5e38155a288d1a01d2cbc4478e14573`
+* `0x77134cbc06cb00b66f4c7e623d5fdbf6777635ec`
 
 ### Next Steps
 
-* Review the top 10 highest-value normal ETH transactions for each month from June 2025 to June 2026.
-* Spot-check selected transaction hashes on Etherscan to confirm the BigQuery results.
-* Add the BigQuery SQL query to the GitHub repository so the analysis can be reproduced.
-* Continue broader month-to-month Ethereum mainnet transaction analysis using BigQuery.
-* Continue using PostgreSQL, CSV exports, and SQL-based filtering to organize the results.
-* Prepare the monthly results so they can later be used for graphs, charts, or presentation slides.
+* Check the repeated addresses on Etherscan for public labels.
+* Record whether each address looks like an exchange/custody wallet, DeFi-related address, contract, unknown wallet, or treasury-style address.
+* Create a small address classification table with address, label, category, and notes.
+* Look for repeated sender/receiver pairs across multiple months.
+* Use the address classifications to explain whether the largest ETH transfers look like exchange movement, treasury rebalancing, DeFi activity, or anything unusual.
+* Prepare the findings so they can later be used for graphs, charts, or presentation slides.
+
+
+
+
+  
 
 
