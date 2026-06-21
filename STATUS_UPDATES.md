@@ -75,69 +75,76 @@ The monthly mainnet query is different from the earlier Etherscan work because i
 * The BigQuery monthly query focuses on normal ETH transactions, so it does not include internal transactions, ERC-20 transfers, or other contract-level value movements.
 * The monthly results include the month, transaction hash, timestamp, sender address, receiver address, ETH amount, and monthly rank.
 
+
 ## Week 3: Monthly Mainnet Transaction Review
 
 ### Work Completed
 
+* Started working with BigQuery in the sandbox/trial environment to test broader Ethereum mainnet transaction analysis.
+* Used BigQuery since Etherscan works better for one wallet or contract at a time, BigQuery lets me look across mainnet transaction data more broadly.
 * Reviewed the CSV containing the top 10 normal ETH-value transactions for each month from June 2025 through June 2026.
-* Started looking through the sender and receiver addresses to see if any repeated patterns stood out.
-* Noticed that many of the largest monthly transfers seem to involve repeated high-volume addresses instead of random one-time wallets.
-* Found that some addresses appear across multiple months and send large amounts of ETH back and forth, which may point to exchange/custody wallet movement or treasury rebalancing.
-* Started identifying addresses that should be checked further on Etherscan for public labels, wallet type, and transaction history.
+* Started going through the sender and receiver addresses to see if any patterns stood out.
+* Noticed that many of the largest transfers were not random one-time wallets, but repeated high-volume addresses.
+* Started checking some of the repeated addresses on Etherscan to see if they had public labels.
 
 ### Findings
 
 The monthly top 10 transaction CSV has 130 rows total, with 10 high-value normal ETH transactions for each month from June 2025 through June 2026.
 
-Nothing in the CSV alone looks like an obvious scam or fraud case yet. A lot of the activity looks more like large exchange, custody, or treasury wallet movement because the same addresses appear repeatedly and move very large amounts of ETH.
+So far, nothing in the CSV looks like an obvious scam or fraud case by itself. A lot of the activity looks more like large exchange or custody wallet movement because the same addresses show up multiple times and move very large amounts of ETH.
 
-One repeated address pair that stood out was:
+One repeated pair that stood out was:
 
 `0x28c6c06298d514db089934071355e5743bf21d60`
 
+and
+
 `0xf977814e90da44bfa03b6295a0616a897441acec`
 
-These two addresses appeared multiple times across different months and moved very large amounts of ETH. This could be exchange/custody rebalancing, but I need to check the Etherscan labels and transaction history before making any conclusion.
+After checking Etherscan, these appear to be Binance-related wallets. Since they show up more than once and move large amounts of ETH back and forth, this looks more like exchange wallet rebalancing than random suspicious activity.
 
 Another address that stood out was:
 
 `0xa9d1e08c7793af67e9d92fe308d5697fb81d3e43`
 
-This address appeared as a repeated receiver for large ETH transfers, so it is worth checking whether it belongs to an exchange, custody wallet, or other known entity.
+This address appeared as a repeated receiver for large ETH transfers. It looks Coinbase-related from the label check, but I still want to check it more because it may be tied to exchange or contract activity.
 
-In March 2026, there were also multiple transfers around 250,000 ETH going to:
+In March 2026, I also noticed multiple transfers around 250,000 ETH going to:
 
 `0xa9ac43f5b5e38155a288d1a01d2cbc4478e14573`
 
-The repeated same-size transfers are interesting and may show organized wallet movement, but this still needs more checking.
+This address appears to be connected to an OKX hot wallet. The repeated same-size transfers are still interesting, but the label makes it look more like an exchange/custody movement than something clearly suspicious.
+
+Another address I still want to check more is:
+
+`0x77134cbc06cb00b66f4c7e623d5fdbf6777635ec`
+
+This one appeared in a chain movement pattern in June 2026, so I want to look more into whether it has a label, whether it is a wallet or contract, and what other addresses it interacts with.
+
+### Address Notes So Far
+
+| Address | What I found so far |
+|---|---|
+| `0x28c6c06298d514db089934071355e5743bf21d60` | Appears to be a Binance wallet (Binance 14) and shows up in repeated high-value transfers. |
+| `0xf977814e90da44bfa03b6295a0616a897441acec` | Also appears to be Binance-related (Binance Hot Wallet 20) and has repeated movement with the address above. |
+| `0xb5d85cbf7cb3ee0d56b3bb207d5fc4b82f43f511` | Appears to be a Coinbase wallet (Coinbase 44). |
+| `0xa9d1e08c7793af67e9d92fe308d5697fb81d3e43` | Looks Coinbase-related (Coinbase wallet), but I want to check it more because it appears as a repeated receiver. |
+| `0xa9ac43f5b5e38155a288d1a01d2cbc4478e14573` | Appears to be connected to an OKX hot wallet (OKX: Hot Wallet 3) and received repeated large transfers. |
+| `0x77134cbc06cb00b66f4c7e623d5fdbf6777635ec` | Still needs more checking. It appeared in a June 2026 chain-like transfer pattern. |
 
 ### Additional Notes
 
-* The current BigQuery results only show direct ETH value moved in the transaction itself.
-* The results do not include internal transactions, ERC-20 transfers, or other smart contract-level value movements.
-* At this stage, I am not labeling anything as suspicious yet. I am mainly looking for repeated address patterns and then checking whether those addresses have known labels on Etherscan.
-
-### Addresses to Check Further
-
-* `0x28c6c06298d514db089934071355e5743bf21d60`
-* `0xf977814e90da44bfa03b6295a0616a897441acec`
-* `0xa9d1e08c7793af67e9d92fe308d5697fb81d3e43`
-* `0xb5d85cbf7cb3ee0d56b3bb207d5fc4b82f43f511`
-* `0xa9ac43f5b5e38155a288d1a01d2cbc4478e14573`
-* `0x77134cbc06cb00b66f4c7e623d5fdbf6777635ec`
+* The BigQuery results are only showing normal ETH transactions, meaning ETH value moved directly in the transaction.
+* These results do not include internal transactions, ERC-20 transfers, or other smart contract-level value movements.
+* Right now, I am not calling anything suspicious yet. I am mainly looking for repeated address patterns and checking whether those addresses are known wallets on Etherscan.
+* The biggest pattern so far is that many of the top monthly ETH transfers seem to involve major exchange or custody wallets.
+* This gives me a starting point for classifying the biggest ETH movements instead of only listing the transactions by value.
 
 ### Next Steps
 
-* Check the repeated addresses on Etherscan for public labels.
-* Record whether each address looks like an exchange/custody wallet, DeFi-related address, contract, unknown wallet, or treasury-style address.
-* Create a small address classification table with address, label, category, and notes.
+* Keep checking repeated addresses on Etherscan for public labels.
+* Continue building out the address notes as I identify more repeated wallets.
 * Look for repeated sender/receiver pairs across multiple months.
-* Use the address classifications to explain whether the largest ETH transfers look like exchange movement, treasury rebalancing, DeFi activity, or anything unusual.
+* Start separating the large transfers into groups like exchange movement, custody movement, DeFi-related activity, or unknown.
+* Use these notes to help explain what the largest monthly ETH transfers actually represent.
 * Prepare the findings so they can later be used for graphs, charts, or presentation slides.
-
-
-
-
-  
-
-
