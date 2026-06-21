@@ -81,11 +81,15 @@ The monthly mainnet query is different from the earlier Etherscan work because i
 ### Work Completed
 
 * Started working with BigQuery in the sandbox/trial environment to test broader Ethereum mainnet transaction analysis.
-* Used BigQuery since Etherscan works better for one wallet or contract at a time, BigQuery lets me look across mainnet transaction data more broadly.
+* Used BigQuery since Etherscan works better for one wallet or contract at a time, while BigQuery lets me look across mainnet transaction data more broadly.
+* Spent time learning how to query the public Ethereum mainnet dataset and reviewing fields such as transaction hash, timestamp, sender address, receiver address, and transaction value.
 * Reviewed the CSV containing the top 10 normal ETH-value transactions for each month from June 2025 through June 2026.
-* Started going through the sender and receiver addresses to see if any patterns stood out.
+* Started going through the sender and receiver addresses to see if any repeated patterns stood out.
 * Noticed that many of the largest transfers were not random one-time wallets, but repeated high-volume addresses.
-* Started checking some of the repeated addresses on Etherscan to see if they had public labels.
+* Worked through the monthly query results to see which addresses appeared more than once across the highest-value transactions.
+* Manually checked selected repeated addresses on Etherscan to compare the raw BigQuery results with public wallet labels.
+* Updated the GitHub weekly notes to document the BigQuery workflow, address patterns, and early classification notes.
+
 
 ### Findings
 
@@ -139,6 +143,7 @@ This one appeared in a chain movement pattern in June 2026, so I want to look mo
 * Right now, I am not calling anything suspicious yet. I am mainly looking for repeated address patterns and checking whether those addresses are known wallets on Etherscan.
 * The biggest pattern so far is that many of the top monthly ETH transfers seem to involve major exchange or custody wallets.
 * This gives me a starting point for classifying the biggest ETH movements instead of only listing the transactions by value.
+* A large part of this week was spent understanding how to move from address-based Etherscan data collection to broader mainnet-level analysis using BigQuery. The work this week was mostly exploratory, so the focus was on learning the dataset, checking whether the query results made sense, and starting to identify repeated wallet patterns.
 
 ### Next Steps
 
