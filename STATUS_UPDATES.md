@@ -97,7 +97,7 @@ One repeated address pair that stood out was:
 
 `0xf977814e90da44bfa03b6295a0616a897441acec`
 
-These two addresses appeared multiple times across different months and moved very large amounts of ETH. This could be exchange/custody rebalancing, but I need to check the Etherscan labels and transaction history before making any stronger conclusion.
+These two addresses appeared multiple times across different months and moved very large amounts of ETH. This could be exchange/custody rebalancing, but I need to check the Etherscan labels and transaction history before making any conclusion.
 
 Another address that stood out was:
 
@@ -113,8 +113,7 @@ The repeated same-size transfers are interesting and may show organized wallet m
 
 ### Additional Notes
 
-* This part of the project is different from the earlier Joe Lubin wallet investigation because it is looking at broader mainnet activity instead of only one address.
-* The current BigQuery results only show normal ETH transactions, meaning direct ETH value moved in the transaction itself.
+* The current BigQuery results only show direct ETH value moved in the transaction itself.
 * The results do not include internal transactions, ERC-20 transfers, or other smart contract-level value movements.
 * At this stage, I am not labeling anything as suspicious yet. I am mainly looking for repeated address patterns and then checking whether those addresses have known labels on Etherscan.
 
