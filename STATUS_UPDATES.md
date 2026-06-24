@@ -153,3 +153,62 @@ This one appeared in a chain movement pattern in June 2026, so I want to look mo
 * Start separating the large transfers into groups like exchange movement, custody movement, DeFi-related activity, or unknown.
 * Use these notes to help explain what the largest monthly ETH transfers actually represent.
 * Prepare the findings so they can later be used for graphs, charts, or presentation slides.
+
+
+
+## Week 4: Repeated Address Pattern Analysis
+
+### Work Started
+
+* Imported the monthly top 10 (from June 2025 to June 2026) Ethereum mainnet transaction CSV into PostgreSQL for local analysis.
+* Ran SQL queries to find repeated sender addresses, repeated receiver addresses, and repeated sender/receiver pairs.
+* Started using SQL results to identify repeated high-value transaction patterns instead of only checking addresses manually.
+
+### Early Findings
+
+The repeated-address queries show that many of the largest monthly ETH transactions are concentrated around a smaller group of repeated high-volume addresses and address pairs.
+
+The strongest repeated sender was:
+
+`0x28c6c06298d514db089934071355e5743bf21d60`
+
+This address appeared 13 times as a sender and sent about 2.77 million ETH total.
+
+The strongest repeated receiver was:
+
+`0xa9d1e08c7793af67e9d92fe308d5697fb81d3e43`
+
+This address appeared 21 times as a receiver and received about 2.42 million ETH total.
+
+The strongest repeated sender/receiver pair was:
+
+`0x28c6c06298d514db089934071355e5743bf21d60`
+
+to
+
+`0xf977814e90da44bfa03b6295a0616a897441acec`
+
+This pair appeared 9 times and moved over 2.3 million ETH total. The reverse direction also appeared multiple times, which makes the activity look more like exchange wallet movement or internal rebalancing than random one-time transfers.
+
+Another repeated pattern was:
+
+`0xb5d85cbf7cb3ee0d56b3bb207d5fc4b82f43f511`
+
+to
+
+`0xa9d1e08c7793af67e9d92fe308d5697fb81d3e43`
+
+This pair appeared 6 times and moved over 900,000 ETH total.
+
+### Additional Notes
+
+* This work helps turn the monthly transaction CSV into a more useful analysis dataset.
+* The repeated address results match the earlier Etherscan label checks, where several major repeated addresses appeared to be exchange-related.
+* So far, the data still looks more like exchange/custody movement than clearly suspicious activity.
+
+### Next Steps
+
+* Continue comparing repeated SQL results with Etherscan wallet labels.
+* Focus on the highest-frequency sender/receiver pairs first.
+* Group repeated activity into categories such as exchange movement, custody movement, DeFi-related activity, or unknown.
+* Prepare the repeated-address results for possible charts, tables, or presentation summaries.
