@@ -160,13 +160,15 @@ This one appeared in a chain movement pattern in June 2026, so I want to look mo
 
 ### Work Started
 
-* Imported the monthly top 10 (from June 2025 to June 2026) Ethereum mainnet transaction CSV into PostgreSQL for local analysis.
-* Ran SQL queries to find repeated sender addresses, repeated receiver addresses, and repeated sender/receiver pairs.
-* Started using SQL results to identify repeated high-value transaction patterns instead of only checking addresses manually.
+* Continued working with the monthly top 10 Ethereum mainnet transaction CSV from June 2025 through June 2026.
+* Imported the CSV into PostgreSQL so I could run local SQL analysis on the results.
+* Ran queries to find repeated senders, repeated receivers, and repeated sender/receiver pairs.
+* Started using SQL to find patterns instead of only checking each address manually.
+* Began separating addresses that looked exchange-related from addresses that were still unclear.
 
-### Early Findings
+### Findings
 
-The repeated-address queries show that many of the largest monthly ETH transactions are concentrated around a smaller group of repeated high-volume addresses and address pairs.
+The repeated-address queries showed that a lot of the largest ETH transfers were concentrated around a smaller group of high-volume addresses.
 
 The strongest repeated sender was:
 
@@ -180,7 +182,7 @@ The strongest repeated receiver was:
 
 This address appeared 21 times as a receiver and received about 2.42 million ETH total.
 
-The strongest repeated sender/receiver pair was:
+The strongest repeated pair was:
 
 `0x28c6c06298d514db089934071355e5743bf21d60`
 
@@ -188,7 +190,7 @@ to
 
 `0xf977814e90da44bfa03b6295a0616a897441acec`
 
-This pair appeared 9 times and moved over 2.3 million ETH total. The reverse direction also appeared multiple times, which makes the activity look more like exchange wallet movement or internal rebalancing than random one-time transfers.
+This pair appeared 9 times and moved over 2.3 million ETH total. Since both addresses appear Binance-related, this looks more like exchange wallet movement or internal rebalancing than random activity.
 
 Another repeated pattern was:
 
@@ -200,15 +202,40 @@ to
 
 This pair appeared 6 times and moved over 900,000 ETH total.
 
-### Additional Notes
+### Continued Review
 
-* This work helps turn the monthly transaction CSV into a more useful analysis dataset.
-* The repeated address results match the earlier Etherscan label checks, where several major repeated addresses appeared to be exchange-related.
-* So far, the data still looks more like exchange/custody movement than clearly suspicious activity.
+After the repeated-address queries, I made a small `address_labels` table in PostgreSQL. I used this to keep track of addresses that appeared to be connected to exchanges or custody wallets.
+
+I added labels for addresses that looked connected to Binance, Coinbase, OKX, Kraken, Bitfinex, and other exchange-related wallets. After adding these labels, I reran the queries to see what was still showing up as unknown.
+
+One useful result was that after I labeled more of the repeated addresses, there were no repeated Unknown to Unknown sender/receiver pairs left in the current dataset. This does not mean every unknown address has been identified, but it does show that the repeated unknown patterns were mostly explained after checking Etherscan labels and funding history.
+
+### Manual Checks
+
+I also checked the largest remaining Unknown to Unknown transfers. A few of the addresses still had no clear label, but several were connected to known entities or funding sources:
+
+| Transaction | What I found |
+|---|---|
+| 2025-06, 214,893 ETH | Receiver looks like Revolut Cold Wallet. Sender still needs more checking. |
+| 2025-10, 198,289 ETH | Addresses look connected to Deribit 16 and Deribit 8. |
+| 2025-12, 166,022 ETH | Sender looks like Beacon Depositor. Receiver still needs more checking. |
+| 2026-05, 165,021 ETH | Both addresses still need more checking. |
+| 2025-09, 165,010 ETH | Sender appears funded by Unit Treasury. Receiver still needs more checking. |
+| 2025-12, 141,816 ETH | Sender looks like Beacon Depositor. Receiver appears connected to Garrett Bullish. |
+| 2025-08, 141,056 ETH | Sender looks connected to Unit Treasury. Receiver looks like Beacon Depositor. |
+| 2025-12, 112,867 ETH | Addresses look connected to Kraken 183 and Kraken 246. |
+| 2025-11, 110,100 ETH | Sender appears funded by Binance 15. Receiver appears to be an Aave ETH staking contract. |
+| 2026-06, 107,141 ETH | Addresses appear connected to Bitfinex funding history. |
+
+### Current Takeaway
+
+So far, the largest normal ETH transfers in this dataset seem to be heavily influenced by exchange/custody wallets, staking-related movement, and large institutional wallet activity.
+
+I am not labeling the unclear addresses as suspicious yet. Some addresses still need more checking, but the repeated high-value patterns mostly seem connected to known exchange or custody activity.
 
 ### Next Steps
 
-* Continue comparing repeated SQL results with Etherscan wallet labels.
-* Focus on the highest-frequency sender/receiver pairs first.
-* Group repeated activity into categories such as exchange movement, custody movement, DeFi-related activity, or unknown.
-* Prepare the repeated-address results for possible charts, tables, or presentation summaries.
+* Keep checking unclear addresses with Etherscan labels and funding history.
+* Separate the large transfers into categories like exchange movement, custody movement, staking-related movement, and unknown activity.
+* Focus on the remaining addresses that still do not have clear labels.
+* Start preparing the results for possible charts, tables, or presentation summaries.
