@@ -263,3 +263,57 @@ The monthly category breakdown also gives a better direction for the next part o
 * Continue separating large transfers into categories like exchange movement, custody movement, staking-related activity, known entity movement, and unknown activity.
 * Prepare the repeated-address and monthly category results for possible charts, tables, or presentation summaries.
 
+## Week 5: Expanding the Monthly Transaction Dataset
+
+### Work Started
+
+* Expanded the BigQuery analysis from the monthly top 10 normal ETH-value transactions to the monthly top 100 transactions.
+* Pulled the top 100 normal ETH-value transactions for each month from June 2025 through June 2026.
+* Exported the results as a CSV and imported them into PostgreSQL.
+* Created a new table called `mainnet_monthly_top100_transactions`.
+* Confirmed the new dataset has 1,300 rows, which matches 13 months with 100 transactions per month.
+* Started running repeated sender, receiver, and sender/receiver pair queries on the larger dataset.
+
+### Early Findings
+
+The purpose of expanding to the monthly top 100 dataset was to see whether the repeated wallet patterns from Week 4 still appear in a larger sample.
+
+The first queries showed that repeated high-volume wallet activity is still present. One address that stood out again was:
+
+`0x28c6c06298d514db089934071355e5743bf21d60`
+
+This address appeared 125 times as a sender and 97 times as a receiver in the top 100 dataset.
+
+One repeated pair that stood out was:
+
+`0xb5d85cbf7cb3ee0d56b3bb207d5fc4b82f43f511`
+
+to
+
+`0xa9d1e08c7793af67e9d92fe308d5697fb81d3e43`
+
+This pair appeared 33 times and moved about 2.37 million ETH total.
+
+The Binance-related pair from the earlier analysis also still appeared:
+
+`0x28c6c06298d514db089934071355e5743bf21d60`
+
+to
+
+`0xf977814e90da44bfa03b6295a0616a897441acec`
+
+This pair appeared 11 times and moved about 3.04 million ETH total.
+
+### Current Takeaway
+
+The early top 100 results suggest that the repeated address patterns from Week 4 are not only limited to the monthly top 10 transactions. Expanding the dataset gives a better base for checking whether exchange/custody and exchange-linked movement continue to dominate the largest normal ETH transfers.
+
+### Next Steps
+
+* Compare the top 100 addresses with the existing `address_labels` table.
+* Run category breakdown queries on the larger dataset.
+* Identify which repeated addresses still need Etherscan review.
+* Compare the top 10 and top 100 results to see whether the same patterns hold.
+* Prepare the larger dataset for possible charts or summary tables.
+
+
