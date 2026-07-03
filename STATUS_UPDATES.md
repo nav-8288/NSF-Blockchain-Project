@@ -308,12 +308,28 @@ This pair appeared 11 times and moved about 3.04 million ETH total.
 
 The early top 100 results suggest that the repeated address patterns from Week 4 are not only limited to the monthly top 10 transactions. Expanding the dataset gives a better base for checking whether exchange/custody and exchange-linked movement continue to dominate the largest normal ETH transfers.
 
+### Platform Update
+
+After the earlier BigQuery work, concerns came up about whether Google Storage / BigQuery should be used for the project because of university approval and data storage rules.
+
+For now, I am pausing additional BigQuery work until the preferred platform is clearer. The BigQuery work already completed is still useful because it helped create the monthly transaction datasets and test the repeated-address analysis workflow.
+
+The current workflow has been:
+
+BigQuery public Ethereum data -> CSV export -> PostgreSQL -> repeated address and category analysis
+
+If AWS is preferred, the workflow could likely be adjusted to something like:
+
+AWS S3 / Athena -> CSV export -> PostgreSQL -> repeated address and category analysis
+
+The main analysis process would stay similar. The platform used to collect or query the data may change, but the PostgreSQL analysis, repeated address queries, address label table, and category breakdown approach can still be reused.
+
+Before moving further with AWS, I need to confirm whether I should use AWS Educate, AWS Free Tier / credits, or a UB-approved AWS setup.
+
+
 ### Next Steps
 
-* Compare the top 100 addresses with the existing `address_labels` table.
-* Run category breakdown queries on the larger dataset.
-* Identify which repeated addresses still need Etherscan review.
-* Compare the top 10 and top 100 results to see whether the same patterns hold.
-* Prepare the larger dataset for possible charts or summary tables.
-
+* Confirm the preferred AWS route with Dr. Ramamurthy before setting up a full AWS workflow.
+* Pause additional BigQuery work until the platform direction is clearer.
+* Continue using the exported CSVs and local PostgreSQL database for analysis that has already been completed.
 
