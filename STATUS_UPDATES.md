@@ -306,7 +306,9 @@ This pair appeared 11 times and moved about 3.04 million ETH total.
 
 ### Current Takeaway
 
-The early top 100 results suggest that the repeated address patterns from Week 4 are not only limited to the monthly top 10 transactions. Expanding the dataset gives a better base for checking whether exchange/custody and exchange-linked movement continue to dominate the largest normal ETH transfers.
+The early top 100 results suggest that the repeated address patterns from Week 4 are not only limited to the monthly top 10 transactions. Expanding the dataset gives a better base for checking whether exchange/custody and exchange-linked movement continue to appear in a larger sample of high-value normal ETH transfers.
+
+At the same time, the project direction may shift away from only focusing on large datasets. Dr. Ramamurthy suggested that instead of only using large data, we may be able to do multiple smaller analyses using blockchain data. This could be a good direction because the repeated-address work can still be useful, but it may be combined with smaller case studies or more focused blockchain analysis examples.
 
 ### Platform Update
 
@@ -324,12 +326,14 @@ AWS S3 / Athena -> CSV export -> PostgreSQL -> repeated address and category ana
 
 The main analysis process would stay similar. The platform used to collect or query the data may change, but the PostgreSQL analysis, repeated address queries, address label table, and category breakdown approach can still be reused.
 
-Before moving further with AWS, I need to confirm whether I should use AWS Educate, AWS Free Tier / credits, or a UB-approved AWS setup.
-
+Before moving further with AWS, I need to confirm whether I should use AWS Educate, AWS Free Tier / credits, or a UB-approved AWS setup. I also need to confirm whether the next direction should be AWS setup, continued local PostgreSQL analysis, or multiple smaller blockchain analyses.
 
 ### Next Steps
 
 * Confirm the preferred AWS route with Dr. Ramamurthy before setting up a full AWS workflow.
 * Pause additional BigQuery work until the platform direction is clearer.
 * Continue using the exported CSVs and local PostgreSQL database for analysis that has already been completed.
+* Discuss whether the project should shift toward multiple smaller blockchain analyses instead of only large-scale transaction datasets.
+* Ask what type of smaller analyses would be most useful for the project, such as exchange/custody movement, staking activity, DeFi contracts, wallet classification, or unusual transaction patterns.
+
 
