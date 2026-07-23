@@ -400,3 +400,21 @@ Both tasks followed the same basic structure:
 
 Question -> collect/filter data -> summarize results -> create graph -> document findings
 
+### Seasonal Ethereum Transaction Analysis
+
+I also started the seasonal Ethereum analysis task by comparing December 2025 and March 2026.
+
+For this first version, I used the monthly top 100 normal ETH transaction dataset that I already imported into PostgreSQL. I filtered the table for December 2025 and March 2026 and compared the total ETH moved, average ETH moved, minimum transaction amount, maximum transaction amount, and the top sender/receiver addresses for each month.
+
+The summary showed that December 2025 had slightly more total ETH moved than March 2026 in the top 100 dataset. December moved about 5.05 million ETH, while March moved about 4.85 million ETH.
+
+December also had a slightly higher average transaction size, about 50,501 ETH compared to about 48,453 ETH in March. However, March had the largest single transaction, about 294,183 ETH, compared to December's largest transaction of about 190,778 ETH.
+
+I created three charts for this analysis:
+
+* total ETH moved in December 2025 vs March 2026
+* average ETH moved per top 100 transaction
+* largest single ETH transaction in each month
+
+This is still a first-pass seasonal comparison because it only looks at the top 100 normal ETH transfers for two selected months. It does not include all Ethereum transactions, ERC-20 transfers, internal transactions, or ETH/USD price changes. A stronger version later would compare December and March across multiple years.
+
