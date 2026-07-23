@@ -418,3 +418,31 @@ I created three charts for this analysis:
 
 This is still a first-pass seasonal comparison because it only looks at the top 100 normal ETH transfers for two selected months. It does not include all Ethereum transactions, ERC-20 transfers, internal transactions, or ETH/USD price changes. A stronger version later would compare December and March across multiple years.
 
+### Joe Lubin / MakerDAO-Related ETH Transfer Analysis
+
+I also worked on the Joe Lubin / MakerDAO-related ETH transfer task.
+
+For this analysis, I used the Lubin-linked wallet that I had already started investigating earlier in the project:
+
+`0x1b3cb81e51011b549d78bf720b0d924ac763a7c2`
+
+I queried the wallet's normal outgoing ETH transactions from my local PostgreSQL table and filtered for large transfers greater than or equal to 30,000 ETH.
+
+This returned 8 large outgoing transfers from 2022 through 2026, totaling 426,700 ETH.
+
+The main finding was from June 6, 2026. The large movement did not appear as one single transaction. Instead, it appeared as three separate large outgoing transfers:
+
+* 40,000 ETH
+* 40,000 ETH
+* 30,000 ETH
+
+Together, those three transactions add up to 110,000 ETH.
+
+This helped clarify my earlier Week 2 result. My first query found the two 40,000 ETH transfers, but it missed the 30,000 ETH transfer because the cutoff was too high. After lowering the cutoff to 30,000 ETH, the full June 6 movement became clearer.
+
+I also created a bar chart showing the large outgoing transfers from the wallet and added a separate README for this analysis under:
+
+`analyses/joe_lubin_makerdao_analysis/`
+
+The current limitation is that this analysis only looks at normal ETH transactions. A deeper version would trace the receiving addresses further and look more closely at the Maker Vault / DSProxy activity.
+
