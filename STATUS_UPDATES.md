@@ -446,3 +446,32 @@ I also created a bar chart showing the large outgoing transfers from the wallet 
 
 The current limitation is that this analysis only looks at normal ETH transactions. A deeper version would trace the receiving addresses further and look more closely at the Maker Vault / DSProxy activity.
 
+## Week 7:
+
+### Bitcoin UTXO Transaction Tree Analysis
+
+I also completed the Bitcoin UTXO transaction tree task.
+
+This task was different from the Ethereum analyses because Bitcoin uses the UTXO model instead of Ethereum's account-based model. Instead of tracking one wallet balance, the goal was to follow transaction outputs as they are spent into later transactions.
+
+I first tested the Bitcoin genesis transaction:
+
+`4a5e1e4baab89f3a32518a88c31bc87f618f76673e2cc77ab2127b7afdeda33b`
+
+The script checked the genesis transaction output and found that the 50 BTC output did not produce a normal forward spend path. I documented this as a special case instead of forcing it into the graph.
+
+After that, I used an early spendable Bitcoin transaction as a practical example and traced the UTXO path forward.
+
+The practical trace produced:
+
+* 12 trace rows
+* 8 unique source transactions traced
+* max hop reached: 7
+* 11 spent outputs followed
+
+Since the hop count starts at 0, reaching hop 7 means the trace covered 8 levels. This goes past the original 4-5 hop goal from the meeting notes.
+
+I also created CSV outputs and graph visualizations for both the genesis test and the practical UTXO example. The graph is intentionally simple, while the CSV contains the output indexes, BTC values, and spent-by transaction IDs.
+
+This task helped me understand how different Bitcoin transaction tracing is compared to Ethereum wallet analysis.
+
