@@ -328,12 +328,25 @@ The main analysis process would stay similar. The platform used to collect or qu
 
 Before moving further with AWS, I need to confirm whether I should use AWS Educate, AWS Free Tier / credits, or a UB-approved AWS setup. I also need to confirm whether the next direction should be AWS setup, continued local PostgreSQL analysis, or multiple smaller blockchain analyses.
 
-### Next Steps
 
-* Confirm the preferred AWS route with Dr. Ramamurthy before setting up a full AWS workflow.
-* Pause additional BigQuery work until the platform direction is clearer.
-* Continue using the exported CSVs and local PostgreSQL database for analysis that has already been completed.
-* Discuss whether the project should shift toward multiple smaller blockchain analyses instead of only large-scale transaction datasets.
-* Ask what type of smaller analyses would be most useful for the project, such as exchange/custody movement, staking activity, DeFi contracts, wallet classification, or unusual transaction patterns.
+
+## Week 6: Expanding the Monthly Transaction Dataset
+
+
+### Bina Wallet Small Transaction Analysis
+
+I started one of the smaller blockchain analysis tasks from the Week 5 meeting by looking at outgoing transactions from Dr. Ramamurthy's Ethereum wallet:
+
+`0x3e6937bb87A66E3A4DbE5488A4863f5b29674cC3`
+
+I used the Etherscan API to pull the wallet's normal Ethereum transaction history and then filtered for outgoing ETH transactions where the wallet was the sender. Since the raw blockchain data gives transaction value in ETH instead of USD, I first used an approximate ETH range of `0.0020 ETH` to `0.0030 ETH` to identify transactions that were likely around the $10 range.
+
+This first pass found 24 likely $10-range outgoing transactions. The transactions ranged from 2024-06-17 to 2025-10-14. Most of the activity was concentrated on 2025-10-14, when 20 of the 24 filtered transactions occurred.
+
+I also created a chart showing the number of likely $10-range transactions by date and added a separate README for this analysis under:
+
+`analyses/bina_wallet_10_dollar_transactions/`
+
+The current limitation is that this is still an ETH-based estimate, not an exact USD-based filter. A later improvement would be to join the transactions with historical ETH/USD price data so the filter can be confirmed exactly between $9.50 and $10.50.
 
 
