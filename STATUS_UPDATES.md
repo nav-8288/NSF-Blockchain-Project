@@ -330,23 +330,91 @@ Before moving further with AWS, I need to confirm whether I should use AWS Educa
 
 
 
-## Week 6: Expanding the Monthly Transaction Dataset
+## Week 6: Smaller Blockchain Analysis Tasks
 
+### Work Started
+
+After the Week 5 meeting, I started working on smaller blockchain analysis tasks instead of only focusing on the larger monthly transaction dataset.
+
+The goal this week was to complete a few focused analyses that each have a clear question, a script/query, a result, and at least one visual. I started with two Ethereum-based tasks because they were the most direct to finish with the data and tools I already had.
 
 ### Bina Wallet Small Transaction Analysis
 
-I started one of the smaller blockchain analysis tasks from the Week 5 meeting by looking at outgoing transactions from Dr. Ramamurthy's Ethereum wallet:
+The first task I worked on was the small transaction analysis for Dr. Ramamurthy's Ethereum wallet:
 
 `0x3e6937bb87A66E3A4DbE5488A4863f5b29674cC3`
 
-I used the Etherscan API to pull the wallet's normal Ethereum transaction history and then filtered for outgoing ETH transactions where the wallet was the sender. Since the raw blockchain data gives transaction value in ETH instead of USD, I first used an approximate ETH range of `0.0020 ETH` to `0.0030 ETH` to identify transactions that were likely around the $10 range.
+For this analysis, I used the Etherscan API to pull the wallet's normal Ethereum transaction history. Then I filtered for outgoing ETH transactions where this wallet was the sender.
+
+The goal was to look for transactions around the $9.50 to $10.50 range. Since the transaction data gives the value in ETH instead of USD, I first used an approximate ETH range of `0.0020 ETH` to `0.0030 ETH` to identify likely $10-range transactions.
 
 This first pass found 24 likely $10-range outgoing transactions. The transactions ranged from 2024-06-17 to 2025-10-14. Most of the activity was concentrated on 2025-10-14, when 20 of the 24 filtered transactions occurred.
 
-I also created a chart showing the number of likely $10-range transactions by date and added a separate README for this analysis under:
+I also created a chart showing the number of likely $10-range transactions by date and added a separate README for the analysis under:
 
 `analyses/bina_wallet_10_dollar_transactions/`
 
-The current limitation is that this is still an ETH-based estimate, not an exact USD-based filter. A later improvement would be to join the transactions with historical ETH/USD price data so the filter can be confirmed exactly between $9.50 and $10.50.
+The main limitation is that this is still based on ETH amount, not exact historical USD value. To make it exact, I would need to join each transaction with historical ETH/USD price data and then filter directly between $9.50 and $10.50.
 
+### Ethereum Wallet Transaction Distribution Analysis
+
+The second task I worked on was a transaction distribution analysis for a high-activity Ethereum address:
+
+`0x28c6c06298d514db089934071355e5743bf21d60`
+
+I chose this address because it appeared often in the earlier monthly top 10 and top 100 transaction datasets. Based on earlier label checks, it appears to be exchange-related, so it was a useful example for looking at how a high-activity wallet behaves in the dataset.
+
+For this analysis, I used the monthly top 100 normal ETH transaction table and filtered for rows where this address was the sender. This gave 125 outgoing ETH transactions from June 2025 through June 2026.
+
+Summary results:
+
+| Metric                                   |               Result |
+| ---------------------------------------- | -------------------: |
+| Outgoing transactions in top 100 dataset |                  125 |
+| First transaction                        |  2025-06-02 06:48:35 |
+| Last transaction                         |  2026-06-27 13:04:23 |
+| Minimum ETH sent                         |    22,157.641303 ETH |
+| Maximum ETH sent                         |   539,595.961000 ETH |
+| Average ETH sent                         |    60,190.799273 ETH |
+| Median ETH sent                          |    35,090.515351 ETH |
+| Total ETH sent                           | 7,523,849.909111 ETH |
+
+I created two visuals for this analysis:
+
+* a histogram showing the distribution of outgoing ETH transaction amounts
+* a scatter plot showing outgoing ETH transaction values over time
+
+The main thing I noticed is that most transactions were in the tens of thousands of ETH range, but a few very large outliers pulled the average higher than the median. This made the analysis a good example of why both average and median are useful when looking at blockchain transaction amounts.
+
+This analysis was added under:
+
+`analyses/ethereum_wallet_distribution/`
+
+### Current Takeaway
+
+This week helped move the project toward smaller, more focused blockchain analysis examples.
+
+The Bina wallet analysis focused on small outgoing transactions and produced a filtered result, summary, and chart. The Ethereum wallet distribution analysis focused on a high-activity address and produced summary statistics plus two transaction visuals.
+
+Both tasks followed the same basic structure:
+
+Question -> collect/filter data -> summarize results -> create graph -> document findings
+
+### Seasonal Ethereum Transaction Analysis
+
+I also started the seasonal Ethereum analysis task by comparing December 2025 and March 2026.
+
+For this first version, I used the monthly top 100 normal ETH transaction dataset that I already imported into PostgreSQL. I filtered the table for December 2025 and March 2026 and compared the total ETH moved, average ETH moved, minimum transaction amount, maximum transaction amount, and the top sender/receiver addresses for each month.
+
+The summary showed that December 2025 had slightly more total ETH moved than March 2026 in the top 100 dataset. December moved about 5.05 million ETH, while March moved about 4.85 million ETH.
+
+December also had a slightly higher average transaction size, about 50,501 ETH compared to about 48,453 ETH in March. However, March had the largest single transaction, about 294,183 ETH, compared to December's largest transaction of about 190,778 ETH.
+
+I created three charts for this analysis:
+
+* total ETH moved in December 2025 vs March 2026
+* average ETH moved per top 100 transaction
+* largest single ETH transaction in each month
+
+This is still a first-pass seasonal comparison because it only looks at the top 100 normal ETH transfers for two selected months. It does not include all Ethereum transactions, ERC-20 transfers, internal transactions, or ETH/USD price changes. A stronger version later would compare December and March across multiple years.
 
