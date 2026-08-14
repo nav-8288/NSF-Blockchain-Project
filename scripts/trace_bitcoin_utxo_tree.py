@@ -6,6 +6,7 @@ from pathlib import Path
 
 BASE_URL = "https://blockstream.info/api"
 
+# Bitcoin genesis coinbase transaction
 GENESIS_TXID = "4a5e1e4baab89f3a32518a88c31bc87f618f76673e2cc77ab2127b7afdeda33b"
 
 # Early spendable Bitcoin transaction used for the practical UTXO trace
@@ -36,12 +37,20 @@ def short_txid(txid):
 
 
 def trace_first_spent_path(start_txid, max_hops=8):
+    """
+    Follows a simple forward UTXO path.
+
+    For each transaction, the script checks all outputs and records them.
+    If one or more outputs are spent, the script follows the first spent
+    output as the next hop.
+    """
     rows = []
     current_txid = start_txid
     visited = set()
 
     for hop in range(max_hops):
         if current_txid in visited:
+            print(f"Stopping because this transaction was already visited: {current_txid}")
             break
 
         visited.add(current_txid)
@@ -68,6 +77,7 @@ def trace_first_spent_path(start_txid, max_hops=8):
                 "spent_by_txid": spent_by_txid
             })
 
+            # Follow the first spent output as the next transaction in the path.
             if spent and next_txid is None:
                 next_txid = spent_by_txid
 
@@ -79,30 +89,69 @@ def trace_first_spent_path(start_txid, max_hops=8):
     return pd.DataFrame(rows)
 
 
-def make_clean_graph(df, output_file, title):
+def make_hop_layout_graph(df, output_file, title):
+    """
+    Creates a cleaner UTXO graph by arranging transactions by hop number.
+
+    Node label format:
+    H0
+    f4184fc5...831e9e16
+    """
     graph = nx.DiGraph()
+    node_hops = {}
 
     for _, row in df.iterrows():
         source_txid = row["txid"]
-        target_txid = row["spent_by_txid"]
+        hop = int(row["hop"])
 
         graph.add_node(source_txid)
+
+        if source_txid not in node_hops:
+            node_hops[source_txid] = hop
+        else:
+            node_hops[source_txid] = min(node_hops[source_txid], hop)
+
+        target_txid = row["spent_by_txid"]
 
         if row["spent"] and isinstance(target_txid, str) and target_txid.strip() != "":
             graph.add_node(target_txid)
             graph.add_edge(source_txid, target_txid)
 
-    plt.figure(figsize=(16, 10))
+            if target_txid not in node_hops:
+                node_hops[target_txid] = hop + 1
 
-    # Larger spacing makes the graph less crowded
-    pos = nx.spring_layout(graph, seed=42, k=1.6)
+    # Group nodes by hop level
+    levels = {}
+    for node, hop in node_hops.items():
+        levels.setdefault(hop, []).append(node)
 
-    node_labels = {node: short_txid(node) for node in graph.nodes()}
+    # Create manual left-to-right positions by hop
+    pos = {}
+    x_spacing = 4.8
+    y_spacing = 3.0
+
+    for hop, nodes in sorted(levels.items()):
+        count = len(nodes)
+        start_y = (count - 1) * y_spacing / 2
+
+        for index, node in enumerate(nodes):
+            x = hop * x_spacing
+            y = start_y - index * y_spacing
+            pos[node] = (x, y)
+
+    labels = {
+        node: f"H{node_hops.get(node, '?')}\n{short_txid(node)}"
+        for node in graph.nodes()
+    }
+
+    plt.figure(figsize=(22, 11))
 
     nx.draw_networkx_nodes(
         graph,
         pos,
-        node_size=3000
+        node_size=3600,
+        edgecolors="black",
+        linewidths=1.2
     )
 
     nx.draw_networkx_edges(
@@ -110,18 +159,26 @@ def make_clean_graph(df, output_file, title):
         pos,
         arrows=True,
         arrowstyle="-|>",
-        arrowsize=20,
-        width=1.5
+        arrowsize=22,
+        width=1.6,
+        connectionstyle="arc3,rad=0.04"
     )
 
     nx.draw_networkx_labels(
         graph,
         pos,
-        labels=node_labels,
-        font_size=8
+        labels=labels,
+        font_size=8,
+        font_weight="bold",
+        bbox=dict(
+            facecolor="white",
+            edgecolor="none",
+            alpha=0.75,
+            pad=0.25
+        )
     )
 
-    plt.title(title, fontsize=16)
+    plt.title(title, fontsize=20)
     plt.axis("off")
     plt.savefig(output_file, dpi=300, bbox_inches="tight")
     plt.close()
@@ -136,12 +193,17 @@ genesis_csv = DATA_DIR / "bitcoin_genesis_utxo_test.csv"
 genesis_graph = ANALYSIS_DIR / "bitcoin_genesis_utxo_test.png"
 
 genesis_df.to_csv(genesis_csv, index=False)
-make_clean_graph(genesis_df, genesis_graph, "Bitcoin Genesis Transaction UTXO Test")
+make_hop_layout_graph(
+    genesis_df,
+    genesis_graph,
+    "Bitcoin Genesis Transaction UTXO Test"
+)
 
 print(genesis_df.to_string(index=False))
 print()
 print(f"Saved genesis CSV to {genesis_csv}")
 print(f"Saved genesis graph to {genesis_graph}")
+
 
 print()
 print("Tracing early spendable Bitcoin transaction path...")
@@ -153,12 +215,17 @@ demo_csv = DATA_DIR / "bitcoin_utxo_tree_trace.csv"
 demo_graph = ANALYSIS_DIR / "bitcoin_utxo_tree.png"
 
 demo_df.to_csv(demo_csv, index=False)
-make_clean_graph(demo_df, demo_graph, "Bitcoin UTXO Transaction Tree")
+make_hop_layout_graph(
+    demo_df,
+    demo_graph,
+    "Bitcoin UTXO Transaction Tree"
+)
 
 print(demo_df.to_string(index=False))
 print()
 print(f"Saved demo CSV to {demo_csv}")
 print(f"Saved demo graph to {demo_graph}")
+
 
 print()
 print("Summary")
