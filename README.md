@@ -57,11 +57,7 @@ The project is organized around these main analysis tasks:
 
 For this task, I looked into a Lubin-linked Ethereum wallet that was connected to a large MakerDAO / Maker Vault-related ETH movement.
 
-**Wallet analyzed:**
-
-```text
-0x1b3cb81e51011b549d78bf720b0d924ac763a7c2
-```
+**Wallet analyzed:** `0x1b3cb81e51011b549d78bf720b0d924ac763a7c2`
 
 I used Etherscan transaction data that had been imported into PostgreSQL. I filtered for outgoing ETH transfers from this wallet where the value was at least 30,000 ETH.
 
@@ -85,19 +81,11 @@ This was useful because my earlier search only found the two 40,000 ETH transfer
 
 For this task, I analyzed Dr. Ramamurthy’s Ethereum wallet and looked for outgoing transactions that were likely around the $10 range.
 
-**Wallet analyzed:**
-
-```text
-0x3e6937bb87A66E3A4DbE5488A4863f5b29674cC3
-```
+**Wallet analyzed:** `0x3e6937bb87A66E3A4DbE5488A4863f5b29674cC3`
 
 I used the Etherscan API because this task focused on one wallet address. The script collected normal Ethereum transactions for the wallet, filtered for outgoing ETH transactions, and then searched for small transfers.
 
-Since blockchain transaction data gives the value in ETH instead of historical USD, I used an approximate first-pass range:
-
-```text
-0.0020 ETH to 0.0030 ETH
-```
+Since blockchain transaction data gives the value in ETH instead of historical USD, I used an approximate first-pass range of `0.0020 ETH` to `0.0030 ETH`.
 
 The analysis found **24 likely $10-range outgoing transactions**. Most of them happened on **October 14, 2025**, with 20 of the 24 filtered transactions occurring on that date.
 
@@ -113,11 +101,7 @@ During the project discussion, Dr. Ramamurthy confirmed that October 14th lined 
 
 For this task, I analyzed the outgoing transaction amounts of a high-activity Ethereum wallet labeled as Binance 14.
 
-**Wallet analyzed:**
-
-```text
-0x28c6c06298d514db089934071355e5743bf21d60
-```
+**Wallet analyzed:** `0x28c6c06298d514db089934071355e5743bf21d60`
 
 This address appeared repeatedly in the monthly top 100 normal ETH transfer dataset, so it was a good example of exchange/custody wallet activity.
 
@@ -154,14 +138,14 @@ I used the monthly top 100 normal ETH transfer dataset and filtered for:
 
 I then compared total ETH moved, average transaction size, and largest transaction size.
 
-**December 2025**
+### December 2025
 
 * 100 transactions
 * about 5.05 million ETH moved
 * average transaction size of about 50,501 ETH
 * largest transaction of about 190,778 ETH
 
-**March 2026**
+### March 2026
 
 * 100 transactions
 * about 4.85 million ETH moved
@@ -184,17 +168,13 @@ In Ethereum, it is natural to look at a wallet address and track incoming and ou
 
 I first tested the Bitcoin genesis transaction:
 
-```text
-4a5e1e4baab89f3a32518a88c31bc87f618f76673e2cc77ab2127b7afdeda33b
-```
+**Genesis transaction:** `4a5e1e4baab89f3a32518a88c31bc87f618f76673e2cc77ab2127b7afdeda33b`
 
 The script found that the genesis transaction had one 50 BTC output, but it did not have a normal forward spending path. I documented this as a special case instead of forcing the graph to continue.
 
 After that, I used an early spendable Bitcoin transaction to demonstrate the UTXO trace:
 
-```text
-f4184fc596403b9d638783cf57adfe4c75c605f6356fbc91338530e9831e9e16
-```
+**Early spendable transaction:** `f4184fc596403b9d638783cf57adfe4c75c605f6356fbc91338530e9831e9e16`
 
 The script traced the path forward by checking transaction outputs, seeing whether each output was spent, and then following the transaction that spent the output.
 
@@ -268,4 +248,3 @@ NSF-Blockchain-Project/
 ## Project Status
 
 First versions of all five analysis tasks are complete. Each task includes a working query or script, summary results, at least one visual, and documentation of the main findings and limitations.
-
